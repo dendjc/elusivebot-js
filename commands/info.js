@@ -4,7 +4,7 @@ exports.run = async (client, message, args) => {
     let uInfoEmbed = new client.Discord.RichEmbed()
     .setThumbnail(user.displayAvatarURL)
     .setAuthor("Zdravo, "+message.author.username+"#"+message.author.discriminator, message.author.displayAvatarURL)
-    .setDescription("__**Informacije o Ëlanu**__")
+    .setDescription("__**Informacije o ƒçlanu**__")
     .setColor(0x15f153) 
     .addField("Ime", `${user.username}#${user.discriminator}`) // Their name, I use a different way, this should work 
     .addField("ID", user.id) // Their ID 
