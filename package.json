@@ -1,0 +1,26 @@
+{
+  "name": "exotic-bot",
+  "version": "1.0.0",
+  "description": "Exotic Discord Bot",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "discord.js": "^11.3.0",
+    "enmap": "^5.2.4"
+  },
+  "engines": {
+    "node": "8.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/build-a-discord-bot"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ]
+}

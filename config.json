@@ -1,0 +1,12 @@
+{
+  "ime": "Exotic Bot",
+  "prefix": "e!",
+  "verzija": "1.0.0",
+  "developer": "Gandi#5172",
+  "update": "8.3.2020",
+  "embed":{
+    "color": "#ff5b5b", 
+    "devcolor": "#ffad5c",
+    "footer": "Exotic Bot | Online Discord Bot"
+  }
+}
