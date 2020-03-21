@@ -4,16 +4,16 @@ exports.run = async (client, message, args) => {
     // In the real world mods could ban too, but this is just an example, right? ;)
 
     if (!message.member.hasPermission("BAN_MEMBERS", false, false))
-      return message.channel.send("Nemaö permisiju za koriötenje ove komande!");
+      return message.channel.send("Nema≈° permisiju za kori≈°tenje ove komande!");
 
     let member = message.mentions.members.first();
 
     if (!member)
-      return message.channel.send("OznaËi pravilnog Ëlana ovog servera!");
+      return message.channel.send("Oznaƒçi pravilnog ƒçlana ovog servera!");
 
     if (!member.bannable)
       return message.channel.send(
-        "Ne mogu banovati ovog Ëlana! Moûda on ima veÊi role ili ja nemam permisiju za ovu funkciju!"
+        "Ne mogu banovati ovog ƒçlana! Mo≈æda on ima veƒái role ili ja nemam permisiju za ovu funkciju!"
       );
 
     let reason = args.slice(1).join(" ");
@@ -25,7 +25,7 @@ exports.run = async (client, message, args) => {
 
       .catch(error =>
         message.channel.send(
-          `Izvinjavam se, ${message.author}. Nisam mogao banovati ovog Ëlana zbog: ${error}`
+          `Izvinjavam se, ${message.author}. Nisam mogao banovati ovog ƒçlana zbog: ${error}`
         )
       );
 

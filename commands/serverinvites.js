@@ -42,6 +42,6 @@ exports.run = (client, message, args) => {
           });
       });
     } else {
-      message.reply("ovu komandu moûe koristiti samo developer!");
+      message.reply("ovu komandu mo≈æe koristiti samo developer!");
     }
 }

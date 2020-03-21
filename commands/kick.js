@@ -6,17 +6,17 @@ exports.run = async (client, message, args) => {
     // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/some?
 
     if (!message.member.hasPermission("KICK_MEMBERS", false, false))
-      return message.reply("nemaš permisiju za korištenje ove komande!"); // Let's first check if we have a member and if we can kick them! // message.mentions.members is a collection of people that have been mentioned, as GuildMembers. // We can also support getting the member by ID, which would be args[0]
+      return message.reply("nemaÅ¡ permisiju za koriÅ¡tenje ove komande!"); // Let's first check if we have a member and if we can kick them! // message.mentions.members is a collection of people that have been mentioned, as GuildMembers. // We can also support getting the member by ID, which would be args[0]
 
     let member =
       message.mentions.members.first() || message.guild.members.get(args[0]);
 
     if (!member)
-      return message.channel.send("Oznaèi pravilnog èlana ovog servera!");
+      return message.channel.send("OznaÄi pravilnog Älana ovog servera!");
 
     if (!member.kickable)
       return message.channel.send(
-        "Ne mogu kikati ovog èlana! Moda on ima veæi role ili ja nemam permisiju za ovu funkciju!"
+        "Ne mogu kikati ovog Älana! MoÅ¾da on ima veÄ‡i role ili ja nemam permisiju za ovu funkciju!"
       ); // slice(1) removes the first part, which here should be the user mention or ID // join(' ') takes all the various parts to make it a single string.
 
     let reason = args.slice(1).join(" ");
@@ -28,7 +28,7 @@ exports.run = async (client, message, args) => {
 
       .catch(error =>
         message.channel.send(
-          `Izvinjavam se, ${message.author}. Nisam mogao kikati zbog: ${error}`
+          `Izvinjavam se, ${message.author}. Nisam mogao kikati ovog Älana zbog: ${error}`
         )
       );
 

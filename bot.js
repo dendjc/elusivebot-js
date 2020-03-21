@@ -1,3 +1,11 @@
+// ping.js skripta
+
+// svakih 5 minuta pinga glitch
+
+const ping = require("./ping.js")
+
+ping.on();
+
 // Load up the discord.js library
 
 const Discord = require("discord.js");
@@ -22,20 +30,21 @@ const config = require("./config.json");
 
 client.config = config;
 
-
 // config.token contains the bot's token
 
 // config.prefix contains the message prefix.
 
-const ping = require("./ping.js");
+const server = require("./serverconfig.json");
 
-ping.main();
+client.server = server;
 
 const dev_ids = ["495897264108339200"];
 
 client.dev_ids = dev_ids;
 
 const cooldown = new Set();
+
+client.cooldown = cooldown;
 
 // This loop reads the /events/ folder and attaches each event file to the appropriate event. 
 fs.readdir("./events/", (err, files) => { 
@@ -65,18 +74,16 @@ fs.readdir("./commands/", (err, files) => {
     let props = require(`./commands/${file}`); 
     // Get just the command name from the file name 
     let commandName = file.split(".")[0]; 
-    console.log(`Attempting to load command ${commandName}`); 
+    console.log(`PokuÅ¡avam pokrenuti komandu ${commandName}`); 
     // Here we simply store the whole thing in the command Enmap. We're not running it right now. 
     client.commands.set(commandName, props); 
   }); 
 });
-
-client.on("message", async message => {
   
   /* if (command === "nick") {
-    if(cooldown.has(message.author.id)) return message.reply("morate saèekati 5h prije ponovnog mjenjanja nicka!");
+    if(cooldown.has(message.author.id)) return message.reply("morate saï¿½ekati 5h prije ponovnog mjenjanja nicka!");
     const nick = args.join(" ");
-    if(!nick) return message.reply("Niste unijeli odgovarajuæi nick!");
+    if(!nick) return message.reply("Niste unijeli odgovarajuï¿½i nick!");
     message.channel.send(`${message.member.user.tag}\n**Promjena nicka!**\n--------------------\n**Novi nick**: ${nick}`);
     message.member.setNickname(nick).catch(error => message.reply(`nisam mogao promjeniti tvoj nick zbog ${error}`));
     cooldown.add(message.author.id);
@@ -85,17 +92,16 @@ client.on("message", async message => {
   }
   
   if (command === "anick") {
-    if(!message.member.hasPermission('ADMINISTRATOR', false, false)) return message.reply("nemaš permisiju za korištenje ove komande!");
+    if(!message.member.hasPermission('ADMINISTRATOR', false, false)) return message.reply("nemaï¿½ permisiju za koriï¿½tenje ove komande!");
     let tagged = message.mentions.users.first();
     let err = 0;
-    if (!tagged) return message.channel.send("Nisi pravilno oznaèio èlana!");
+    if (!tagged) return message.channel.send("Nisi pravilno oznaï¿½io ï¿½lana!");
     let nick = args.slice(1).join(" ");
-    if(!nick) return message.channel.send("Nisi napisao nick koji želiš dodijeliti tom èlanu!");
+    if(!nick) return message.channel.send("Nisi napisao nick koji ï¿½eliï¿½ dodijeliti tom ï¿½lanu!");
     message.guild.member(tagged).setNickname(nick)
     .catch(error => err=1);
     if(err !== 1) message.channel.send("a");
     message.channel.send("b");
-   // message.channel.send(`${message.member} je promjenio nick èlanu ${tagged.username} na ${nick}!`);
+   // message.channel.send(`${message.member} je promjenio nick ï¿½lanu ${tagged.username} na ${nick}!`);
     } */
-});
 client.login(process.env.DISCORD_TOKEN);

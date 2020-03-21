@@ -1,14 +1,14 @@
-module.exports.main = function() {
-  
-  const http = require('http');
+const http = require("http");
 
-  const express = require('express');
+const express = require("express");
 
-  const app = express();
+const app = express();
+
+module.exports.on = function() {
 
   app.get("/", (request, response) => {
 
-  console.log(Date.now() + " Ping Received");
+  console.log(Date.now() + " - ping primljen!");
 
   response.sendStatus(200);
 
@@ -21,4 +21,7 @@ module.exports.main = function() {
   http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 
   }, 280000);
+  
+  console.log("Ping.js skripta učitana!");
+  
 }
