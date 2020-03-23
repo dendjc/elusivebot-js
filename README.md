@@ -1,8 +1,7 @@
-Exotic Bot
+Elusive Bot
 =========================  
-![Exotic Bot](https://apis.eu.org/content/images/8a429e4c7fbb20a05924032475ddb784.png)
-  
-**Exotic Bot** is online Discord moderation bot. It is developed by *Gandi#5172* since March, 2020. Exotic Bot is written in `Node.js` using `Discord.js` library and is hosted on *Glitch*.
+
+**Elusive Bot** is online Discord moderation bot. It is developed by *Gandi* since March, 2020. Elusive Bot is written in `Node.js` using `Discord.js` library and is hosted on *Glitch*.
 
 # More about Discord
   
