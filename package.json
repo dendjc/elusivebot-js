@@ -1,6 +1,6 @@
 {
   "name": "exotic-bot",
-  "version": "1.0.0",
+  "version": "2.1.0",
   "description": "Exotic Discord Bot",
   "main": "bot.js",
   "scripts": {
@@ -11,7 +11,8 @@
     "discord.js": "^11.3.0",
     "enmap": "^5.2.4",
     "quick.db": "^6.3.2",
-    "parse-ms": "^2.0.0"
+    "parse-ms": "^2.0.0",
+    "util": "^0.12.1"
   },
   "engines": {
     "node": "8.x"

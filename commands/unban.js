@@ -6,7 +6,7 @@ exports.run = async (client, message, args, level) => {
 
     if (user) {
       message.guild.unban(user).then(() => {
-        message.reply("uspješno ste unbanovali tog korisnika!")
+        message.channel.send("Unbanovao/la si tog korisnika!")
 
         const modLogChannel = settings.modLogChannel
         if (modLogChannel && message.guild.channels.find(c => c.name === settings.modLogChannel)) {

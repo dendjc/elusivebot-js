@@ -11,14 +11,16 @@ exports.run = async (client, message, args) => {
     if (!member)
       return message.channel.send("Označi pravilnog člana ovog servera!");
 
+    if(member.hasPermission("KICK_MEMBERS")) return message.channel.send("Taj član pripada STAFFu!");
+
     if (!member.bannable)
       return message.channel.send(
-        "Ne mogu banovati ovog člana! Možda on ima veći role ili ja nemam permisiju za ovu funkciju!"
+        "Ne mogu banovati ovog člana! Možda on/a ima veći role ili ja nemam permisiju za ovu funkciju!"
       );
 
     let reason = args.slice(1).join(" ");
 
-    if (!reason) reason = "Nisi napisao razlog.";
+    if (!reason) reason = "Nisi napisao/la razlog.";
 
     await member
       .ban(reason)
@@ -30,6 +32,6 @@ exports.run = async (client, message, args) => {
       );
 
     message.channel.send(
-      `${member.user.tag} je banovan od strane ${message.author.tag} zbog: ${reason}`
+      `${member.user.tag} je banovan/a od strane ${message.author.tag} zbog: ${reason}`
     );
 }

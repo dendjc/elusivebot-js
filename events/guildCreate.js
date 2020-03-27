@@ -4,6 +4,6 @@ module.exports = (client) => {
   );
 
   client.user.setActivity(
-    `${client.config.ime} || ${client.config.prefix}help || ${client.guilds.size} server/a`
+    `${client.config.ime} || ${client.config.prefix}help`
   );
 }

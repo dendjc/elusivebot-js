@@ -1,13 +1,14 @@
 const words = require("../rijeci.js");
+const db = require("quick.db");
 
 module.exports = async (client, message) => {
   // Ignore all bots 
   if (message.author.bot) return; 
-  let owner = message.guild.roles.get(client.server.owner);
-  if(words.zabranjeno.some(word => message.content.toLowerCase().includes(word)) && !message.member.roles.has(owner.id)) {
+  if(words.zabranjeno.some(word => message.content.toLowerCase().includes(word)) && !message.member.hasPermission("KICK_MEMBERS")) {
      let razlog = "Zabranjena riječ!";
-     if(words.link.some(word => message.content.toLowerCase().includes(word)) && !message.member.roles.has(owner.id))
+     if(words.link.some(word => message.content.toLowerCase().includes(word)) && !message.member.hasPermission("KICK_MEMBERS")) 
         razlog = "Vanjski link/Discord pozivnica!";
+     db.add(`warns_${message.guild.id}_${message.author.id}`, 1);
      let forbiddenEmbed = new client.Discord.RichEmbed()
      .setColor("#FFFFFF")
      .setAuthor(message.author.username+" je dobio/la warn!", message.author.displayAvatarURL)
@@ -15,13 +16,14 @@ module.exports = async (client, message) => {
      message.delete().then(() => message.channel.send(forbiddenEmbed))
     .catch(err => console.log(err));
   }
-  if(message.isMentioned(client.user) && !message.member.roles.has(owner.id)) {
+  if(message.isMentioned(client.user) && !message.member.hasPermission("KICK_MEMBERS")) {
     message.delete();
     message.channel.send("Listu komandi i ostalo možeš naći na `"+client.config.prefix+"help`")
     .then(msg => msg.delete(5000));
     return;
   }
-  if(message.isMentioned(client.users.get("495897264108339200")) && !message.member.roles.has(owner.id)) {
+  
+  if(message.isMentioned(client.users.get("495897264108339200")) && !message.member.hasPermission("KICK_MEMBERS")) {
     let developerEmbed = new client.Discord.RichEmbed()
     .setColor("#FFFFFF")
     .setAuthor("Ne možeš tag developera!", message.author.displayAvatarURL);

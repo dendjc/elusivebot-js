@@ -14,6 +14,7 @@ exports.run = async (client, message, args) => {
   
   let user = message.mentions.members.first();
   let userr = message.mentions.users.first();
+  if(!userr) return message.channel.send("Nisi označio/la člana kojem želiš dati novac!");
   if(userr.bot) return message.channel.send("Ne možeš botu dati novac!");
   
   if(!user) return message.channel.send("Nisi označio/la člana kojem želiš dati novac!");

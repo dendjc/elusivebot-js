@@ -1,3 +1,5 @@
+const db = require("quick.db");
+
 exports.run = async (client, message, args) => {
   // This command removes all messages from all users in the channel, up to 100.
 
@@ -22,15 +24,19 @@ exports.run = async (client, message, args) => {
         .setColor("#FFFFFF")
         .setAuthor(message.author.username+" je izbrisao/la "+msg+" u ovom kanalu!", message.author.displayAvatarURL)
         .setDescription("**Broj izbrisanih poruka**: "+deleteCount);
-        let logs = client.channels.get("688807368968110180");
-        if(message.channel.id !== logs.id) {
+        let i = 0;
+        let logs = await db.fetch(`logs_${message.guild.id}_msglogs`);
+        if(logs === null) i++;
+        logs = client.channels.get(logs);
+        if(logs === undefined || logs === null) i++;
+        if(message.channel !== logs) {
           let logsEmbed = new client.Discord.RichEmbed()
           .setColor("#FFFFFF")
           .setAuthor(message.author.username+" je koristio komandu "+client.config.prefix+"clear", message.author.displayAvatarURL)
           .setDescription("**Kanal:** "+message.channel.name)
           .setFooter(client.config.embed.footer)
           .setTimestamp();
-          logs.send(logsEmbed);
+          if(i == 0) logs.send(logsEmbed);
         }
         message.channel.send(clearEmbed).then(msg => msg.delete(3000));
       })
