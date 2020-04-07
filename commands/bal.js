@@ -14,7 +14,7 @@ exports.run = async (client, message, args) => {
   let bank = await db.fetch(`bank_${message.guild.id}_${user.id}`)
   if (bank === null) bank = 0;
 
-  let moneyEmbed = new Discord.RichEmbed()
+  let moneyEmbed = new Discord.MessageEmbed()
   .setColor("#FFFFFF")
   .setDescription(`**Stanje na računu člana ${user}**\n\nDžep: ${bal}$\nBanka: ${bank}$`);
   message.channel.send(moneyEmbed)

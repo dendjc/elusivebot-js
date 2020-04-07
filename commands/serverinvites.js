@@ -28,7 +28,7 @@ exports.run = (client, message, args) => {
 
               invites = invites.join("\n\n");
 
-              let embed = new client.Discord.RichEmbed()
+              let embed = new client.Discord.MessageEmbed()
 
                 .setTitle("Sve pozivnice:")
 

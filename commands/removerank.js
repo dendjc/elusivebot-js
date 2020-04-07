@@ -1,10 +1,10 @@
 exports.run = async (client, message, args) => {
-  if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
+  if(!message.member.permissions.has("ADMINISTRATOR")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
   
-  let bronze = message.guild.roles.get(client.server.bronzevip);
-  let silver = message.guild.roles.get(client.server.silvervip);
-  let gold = message.guild.roles.get(client.server.goldvip);
-  let platinum = message.guild.roles.get(client.server.platinumvip);
+  let bronze = message.guild.roles.cache.get(client.server.bronzevip);
+  let silver = message.guild.roles.cache.get(client.server.silvervip);
+  let gold = message.guild.roles.cache.get(client.server.goldvip);
+  let platinum = message.guild.roles.cache.get(client.server.platinumvip);
   
   let user = message.mentions.members.first();
   let userr = message.mentions.users.first();

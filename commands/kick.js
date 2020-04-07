@@ -5,7 +5,7 @@ exports.run = async (client, message, args) => {
 
     // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/some?
 
-    if (!message.member.hasPermission("KICK_MEMBERS", false, false))
+    if (!message.member.permissions.has("KICK_MEMBERS", false, false))
       return message.channel.send("Nemaš permisiju za korištenje ove komande!"); // Let's first check if we have a member and if we can kick them! // message.mentions.members is a collection of people that have been mentioned, as GuildMembers. // We can also support getting the member by ID, which would be args[0]
 
     let member =

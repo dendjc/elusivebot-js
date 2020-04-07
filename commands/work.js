@@ -14,7 +14,7 @@ exports.run = async (client, message, args) => {
     if (author !== null && timeout - (Date.now() - author) > 0) {
         let time = ms(timeout - (Date.now() - author));
 
-        let timeEmbed = new Discord.RichEmbed()
+        let timeEmbed = new Discord.MessageEmbed()
         .setColor("#FFFFFF")
         .setDescription(`:negative_squared_cross_mark: Već si nedavno radio/la!\n\nPokušaj ponovo u ${time.minutes}m ${time.seconds}s `);
         message.channel.send(timeEmbed)
@@ -24,7 +24,7 @@ exports.run = async (client, message, args) => {
 
         let result = Math.floor((Math.random() * replies.length));
         let amount = Math.floor(Math.random() * 80) + 1;
-        let embed1 = new Discord.RichEmbed()
+        let embed1 = new Discord.MessageEmbed()
         .setColor("#FFFFFF")
         .setDescription(`:white_check_mark: Radio/la si kao ${replies[result]} i zaradio/la ${amount}$!`);
         message.channel.send(embed1)

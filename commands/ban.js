@@ -3,7 +3,7 @@ exports.run = async (client, message, args) => {
 
     // In the real world mods could ban too, but this is just an example, right? ;)
 
-    if (!message.member.hasPermission("BAN_MEMBERS", false, false))
+    if (!message.member.permissions.has("BAN_MEMBERS", false, false))
       return message.channel.send("Nemaš permisiju za korištenje ove komande!");
 
     let member = message.mentions.members.first();

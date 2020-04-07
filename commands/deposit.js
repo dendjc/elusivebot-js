@@ -9,7 +9,7 @@ exports.run = async (client, message, args) => {
   let member = await db.fetch(`money_${message.guild.id}_${user.id}`)
   let member2 = await db.fetch(`bank_${message.guild.id}_${user.id}`)
 
-  let embed5 = new Discord.RichEmbed()
+  let embed5 = new Discord.MessageEmbed()
   .setColor("#FFFFFF")
   .setDescription(":negative_squared_cross_mark: Ne možeš prebaciti 0$ na banku!");
   
@@ -19,7 +19,7 @@ exports.run = async (client, message, args) => {
     let money = await db.fetch(`money_${message.guild.id}_${user.id}`)
     let bank = await db.fetch(`bank_${message.guild.id}_${user.id}`)
     
-    let embedbank = new Discord.RichEmbed()
+    let embedbank = new Discord.MessageEmbed()
     .setColor('#FFFFFF')
     .setDescription(":negative_squared_cross_mark: Nemaš nikakav novac za depozit!")
 
@@ -27,14 +27,14 @@ exports.run = async (client, message, args) => {
 
     db.add(`bank_${message.guild.id}_${user.id}`, Number(money))
     db.subtract(`money_${message.guild.id}_${user.id}`, Number(money))
-    let embedall = new Discord.RichEmbed()
+    let embedall = new Discord.MessageEmbed()
   .setColor("#FFFFFF")
   .setDescription(`:white_check_mark: Prebacio/la si sav novac na banku!`);
   message.channel.send(embedall)
   
   } else {
   
-  let embed2 = new Discord.RichEmbed()
+  let embed2 = new Discord.MessageEmbed()
   .setColor("#FFFFFF")
   .setDescription(`:grey_question: Napiši iznos koji želiš prebaciti na banku!`);
   
@@ -42,21 +42,21 @@ exports.run = async (client, message, args) => {
       return message.channel.send(embed2)
       .catch(err => console.log(err))
   }
-  let embed3 = new Discord.RichEmbed()
+  let embed3 = new Discord.MessageEmbed()
   .setColor("#FFFFFF")
   .setDescription(`:negative_squared_cross_mark: Ne možeš prebaciti negativan novac!`);
 
   if (message.content.includes('-')) { 
       return message.channel.send(embed3)
   }
-  let embed4 = new Discord.RichEmbed()
+  let embed4 = new Discord.MessageEmbed()
   .setColor("#FFFFFF")
   .setDescription(`:negative_squared_cross_mark: Nemaš toliko novca!`);
 
   if (member < args[0]) {
       return message.channel.send(embed4)
   }
-  let embed6 = new Discord.RichEmbed()
+  let embed6 = new Discord.MessageEmbed()
 .setColor("#FFFFFF")
 .setDescription(":negative_squared_cross_mark: Ne možeš koristiti znakove!");
 
@@ -64,7 +64,7 @@ exports.run = async (client, message, args) => {
   return message.channel.send(embed6)
  }
     
-  let embed7 = new Discord.RichEmbed()
+  let embed7 = new Discord.MessageEmbed()
   .setColor("#FFFFFF")
   .setDescription(`:white_check_mark: Prebacio/la si ${args[0]}$ na banku!`);
 

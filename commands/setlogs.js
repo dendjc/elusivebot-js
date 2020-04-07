@@ -1,7 +1,7 @@
 const db = require("quick.db");
 
 exports.run = async (client, message, args) => {
-  if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
+  if(!message.member.permissions.has("ADMINISTRATOR")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
   
   let broj = args[0];
   if(!broj) return message.channel.send("Nisi napisao/la vrstu logging kanala!\n1 - logging za poruke,\n2 - logging za ulaz/izlaz članova sa servera,\n3 - logging za warn!");
@@ -14,9 +14,8 @@ exports.run = async (client, message, args) => {
     let kanal = message.mentions.channels.first();
     if(!kanal) return message.channel.send("Nisi označio/la kanal!");
     
-    db.set(`logs_${message.guild.id}_msglogs`, kanal.id)
-    .then(() => message.channel.send("Podesio/la si logging kanal za poruke ("+kanal+")!"))
-    .catch(err => message.channel.send("Nisam mogao podesiti logging kanal zbog: "+err));
+    db.set(`logs_${message.guild.id}_msglogs`, kanal.id);
+    message.channel.send("Podesio/la si logging kanal za poruke ("+kanal.toString()+")!");
   }
   
   if(broj == 2) {
@@ -25,9 +24,8 @@ exports.run = async (client, message, args) => {
     let kanal = message.mentions.channels.first();
     if(!kanal) return message.channel.send("Nisi označio/la kanal!");
     
-    db.set(`logs_${message.guild.id}_memberlogs`, kanal.id)
-    .then(() => message.channel.send("Podesio/la si logging kanal za ulaz/izlaz članova ("+kanal+")!"))
-    .catch(err => message.channel.send("Nisam mogao podesiti logging kanal zbog: "+err));
+    db.set(`logs_${message.guild.id}_memberlogs`, kanal.id);
+    message.channel.send("Podesio/la si logging kanal za ulaz/izlaz članova ("+kanal.toString()+")!");
   }
   if(broj == 3) {
     let logs = await db.fetch(`logs_${message.guild.id}_warnlogs`);
@@ -35,8 +33,7 @@ exports.run = async (client, message, args) => {
     let kanal = message.mentions.channels.first();
     if(!kanal) return message.channel.send("Nisi označio/la kanal!");
     
-    db.set(`logs_${message.guild.id}_warnlogs`, kanal.id)
-    .then(() => message.channel.send("Podesio/la si logging kanal za warn ("+kanal+")!"))
-    .catch(err => message.channel.send("Nisam mogao podesiti logging kanal zbog: "+err));
+    db.set(`logs_${message.guild.id}_warnlogs`, kanal.id);
+    message.channel.send("Podesio/la si logging kanal za warn ("+kanal.toString()+")!");
   }
 }

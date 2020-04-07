@@ -1,6 +1,6 @@
 exports.run = (client, message, args) => {
-  var ecohelpEmbed = new client.Discord.RichEmbed() // Creates a new rich embed (see https://discord.js.org/#/docs/main/stable/class/RichEmbed) 
-    .setAuthor("Zdravo, "+message.author.username+"#"+message.author.discriminator, message.author.displayAvatarURL) 
+  var ecohelpEmbed = new client.Discord.MessageEmbed() // Creates a new rich embed (see https://discord.js.org/#/docs/main/stable/class/RichEmbed) 
+    .setAuthor("Zdravo, "+message.author.username+"#"+message.author.discriminator, message.author.displayAvatarURL()) 
     .setDescription("**Napomena**: ukoliko je potreban unos dodatnih varijabli u komandu, one su označene sa `[]` i `()` u listi komandi.\nValuta je **dolar ($)**.") 
     .addField("👑 Administratorske komande", // Sets the title of the field 
               "**"+client.config.prefix+"am [@mention] [količina]** - dodavanje novca na račun članova!\n"+
@@ -19,7 +19,7 @@ exports.run = (client, message, args) => {
               "**"+client.config.prefix+"shop** - kupovina rankova!\n"+
               "**"+client.config.prefix+"slots** - slot automat!" )
     .setColor(client.config.embed.color) // Sets the color of the embed 
-    .setFooter(client.config.embed.footer) // Sets the footer of the embed 
+    .setFooter(client.config.embed.footer, client.user.displayAvatarURL()) // Sets the footer of the embed 
     .setTimestamp(); 
     message.channel.send(ecohelpEmbed);
 }

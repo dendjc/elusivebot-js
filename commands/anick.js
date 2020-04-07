@@ -1,5 +1,5 @@
 exports.run = async (client, message, args) => {
-  if(!message.member.hasPermission('ADMINISTRATOR', false, false)) return message.reply("nemaš permisiju za korištenje ove komande!");
+  if(!message.member.permissions.has('ADMINISTRATOR', false, false)) return message.reply("nemaš permisiju za korištenje ove komande!");
   let tagged = message.mentions.users.first();
   if(tagged === message.author) return message.channel.send("Za mjenjanje svog nicka koristi **"+client.config.prefix+"nick**!");
   let taggedmember = message.mentions.members.first();
@@ -8,7 +8,7 @@ exports.run = async (client, message, args) => {
   if(!nick) return message.channel.send("Nisi napisao/la nick koji želiš dodijeliti tom članu!");
   let starinick = taggedmember.nickname;
   if(starinick === null) starinick = "//";
-  let nickEmbed = new client.Discord.RichEmbed()
+  let nickEmbed = new client.Discord.MessageEmbed()
   .setColor("#FFFFFF")
   .setAuthor(message.author.username+" je promjenio/la nick članu "+tagged.username+".", message.author.displayAvatarURL)
   .setDescription(`**Stari nick:** ${starinick}\n**Novi nick:** ${nick}`);

@@ -7,7 +7,7 @@ exports.run = async (client, message, args) => {
     let content = "";
 
     for (let i = 0; i < money.length; i++) {
-        let user = client.users.get(money[i].ID.split('_')[2]).username
+        let user = client.users.cache.get(money[i].ID.split('_')[2]).username
 
 
 
@@ -15,7 +15,7 @@ exports.run = async (client, message, args) => {
 
       }
 
-    const embed = new Discord.RichEmbed()
+    const embed = new Discord.MessageEmbed()
     .setDescription(`**Tabela najbogatijih članova**\n\n${content}`)
     .setColor("#FFFFFF")
 

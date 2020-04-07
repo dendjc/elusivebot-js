@@ -24,7 +24,7 @@ exports.run = async (client, message, args) => {
     db.add(`money_${message.guild.id}_${user.id}`, ec)
     let bal = await db.fetch(`money_${message.guild.id}_${user.id}`)
 
-    let moneyEmbed = new Discord.RichEmbed()
+    let moneyEmbed = new Discord.MessageEmbed()
     .setColor("#FFFFFF")
     .setDescription(`:white_check_mark: Dodano ${ec}$ članu ${user}\n\nNovo stanje: ${bal}$`);
     message.channel.send(moneyEmbed)

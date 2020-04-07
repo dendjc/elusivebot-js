@@ -11,15 +11,15 @@ exports.run = async (client, message, args) => {
     let money = parseInt(args[0]);
     let win = false;
 
-    let moneymore = new Discord.RichEmbed()
+    let moneymore = new Discord.MessageEmbed()
     .setColor("#FFFFFF")
     .setDescription(`:negative_squared_cross_mark: Ulažeš više novca nego što imaš!`);
 
-    let moneyhelp = new Discord.RichEmbed()
+    let moneyhelp = new Discord.MessageEmbed()
     .setColor("#FFFFFF")
     .setDescription(`:grey_question: Napiši iznos koji želiš uložiti!`);
   
-    let incorrect = new Discord.RichEmbed()
+    let incorrect = new Discord.MessageEmbed()
     .setColor("#FFFFFF")
     .setDescription(":negative_squared_cross_mark: Ne možeš koristiti znakove!");
 
@@ -38,13 +38,13 @@ exports.run = async (client, message, args) => {
         win = true;
     }
     if (win) {
-        let slotsEmbed1 = new Discord.RichEmbed()
+        let slotsEmbed1 = new Discord.MessageEmbed()
             .setDescription(`${slotItems[number[0]]} | ${slotItems[number[1]]} | ${slotItems[number[2]]}\n\nOsvojio/la si ${money}$`)
             .setColor("#FFFFFF")
         message.channel.send(slotsEmbed1)
         db.add(`money_${message.guild.id}_${user.id}`, money)
     } else {
-        let slotsEmbed = new Discord.RichEmbed()
+        let slotsEmbed = new Discord.MessageEmbed()
             .setDescription(`${slotItems[number[0]]} | ${slotItems[number[1]]} | ${slotItems[number[2]]}\n\nIzgubio/la si ${money}$`)
             .setColor("#FFFFFF")
         message.channel.send(slotsEmbed)

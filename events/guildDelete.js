@@ -4,7 +4,7 @@ module.exports = async (client, guild) => {
   console.log(`Obrisan sam sa: ${guild.name} (id: ${guild.id})`);
 
   client.user.setActivity(
-    `${client.config.ime} || ${client.config.prefix}help`
+    `${client.config.ime} || v${client.config.verzija} || ʙᴇᴛᴀ`
   );
   
   let money = await db.startsWith(`money_${guild.id}`);
@@ -31,9 +31,16 @@ module.exports = async (client, guild) => {
     let data = await db.fetch(`weekly_${guild.id}_${userid}`);
     if(data !== null) db.delete(`weekly_${guild.id}_${userid}`);
   }
+  let mutetime = await db.startsWith(`mutetime_${guild.id}`);
+  for(let i = 0; i < mutetime.length; i++) {
+    db.delete(mutetime[i].ID);
+  }
   let msglogs = await db.fetch(`logs_${guild.id}_msglogs`);
   if(msglogs !== null) db.delete(`logs_${guild.id}_msglogs`);
   let memberlogs = await db.fetch(`logs_${guild.id}_memberlogs`);
   if(memberlogs !== null) db.delete(`logs_${guild.id}_memberlogs`);
-  
+  let warnlogs = await db.fetch(`logs_${guild.id}_warnlogs`);
+  if(warnlogs !== null) db.delete(`logs_${guild.id}_warnlogs`);
+  let prefix = await db.fetch(`settings_${guild.id}_prefix`);
+  if(prefix !== null) db.delete(`settings_${guild.id}_prefix`);
 }

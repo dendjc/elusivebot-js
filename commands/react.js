@@ -1,14 +1,14 @@
 exports.run = async (client, message, args) => {
-  if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
+  if(!message.member.permissions.has("ADMINISTRATOR")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
   
   let reactionname = args[0];
   if(!reactionname) return message.channel.send("Nisi napisao/la ime emojia!");
-  let reaction = client.emojis.find(r => r.name === reactionname);
+  let reaction = client.emojis.cache.find(r => r.name === reactionname);
   if(!reaction) return message.channel.send("Nisam uspio pronaći taj emoji!");
   
   let msgid = args[1];
   if(!msgid || isNaN(msgid)) return message.channel.send("Nisi napisao/la ID poruke!");
-  let msg = await message.channel.fetchMessage(msgid)
+  let msg = await message.channel.messages.fetch(msgid)
   .catch(err => message.channel.send("Ta poruka ne postoji!"));
   
   let broj = args[2];

@@ -3,7 +3,7 @@ exports.run = (client, message, args) => {
     if (!client.lockit) client.lockit = [];
     let time = args.join(' ');
     let validUnlocks = ['release', 'unlock'];
-    if(!message.member.hasPermission("MANAGE_CHANNELS")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
+    if(!message.member.permissions.has("MANAGE_CHANNELS")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
     if (!time) return message.channel.send("Moraš napisati dužinu lockdowna u satima, minutama ili sekundama!");
     if(isNaN(time)) return message.channel.send("Nisi pravilno napisao/la dužinu vremena!");
   

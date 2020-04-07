@@ -5,9 +5,9 @@ module.exports = async (client, message) => {
   if(client.user === message.author) return;
   let logs = await db.fetch(`logs_${message.guild.id}_msglogs`);
   if(logs === null) return;
-  logs = client.channels.get(logs);
+  logs = message.guild.channels.cache.get(logs);
   if(logs === undefined || logs === null) return;
-  let embed = new client.Discord.RichEmbed()
+  let embed = new client.Discord.MessageEmbed()
   .setColor("#FFFFFF")
   .setAuthor("Poruka je izbrisana iz kanala "+message.channel.name)
   .setDescription(message.cleanContent)

@@ -21,7 +21,7 @@ exports.run = async (client, message, args) => {
     db.subtract(`money_${message.guild.id}_${user.id}`, ec)
     let bal = await db.fetch(`money_${message.guild.id}_${user.id}`)
 
-    let moneyEmbed = new Discord.RichEmbed()
+    let moneyEmbed = new Discord.MessageEmbed()
     .setColor("#FFFFFF")
     .setDescription(`:negative_squared_cross_mark:  Oduzeto ${ec}$ članu ${user}\n\nNovo stanje: ${bal}$`);
     message.channel.send(moneyEmbed)

@@ -4,6 +4,6 @@ module.exports = (client) => {
   );
 
   client.user.setActivity(
-    `${client.config.ime} || ${client.config.prefix}help`
+    `${client.config.ime} || v${client.config.verzija} || ʙᴇᴛᴀ`
   );
 }

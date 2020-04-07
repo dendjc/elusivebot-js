@@ -1,5 +1,5 @@
 exports.run = async (client, message, args) => {
-  if(message.author.id !== "495897264108339200") return;
+  if(message.author.id !== client.config.dev.id) return;
   let status = args.join(" ");
   if(!status) return message.channel.send("Napiši koji status želiš postaviti!");
   
@@ -7,7 +7,7 @@ exports.run = async (client, message, args) => {
     client.user.setStatus('online')
     .then(async() => {
       message.channel.send("Stavio si status bota na online!")
-      let fetch = await message.channel.fetchMessages({ limit: 2 })
+      let fetch = await message.channel.messages.fetch({ limit: 2 })
       setTimeout(() => message.channel.bulkDelete(fetch), 3000)
     })
     .catch(err => console.log(err));
@@ -17,7 +17,7 @@ exports.run = async (client, message, args) => {
     client.user.setStatus('idle')
     .then(async() => {
       message.channel.send("Stavio si status bota na idle!")
-      let fetch = await message.channel.fetchMessages({ limit: 2 })
+      let fetch = await message.channel.messages.fetch({ limit: 2 })
       setTimeout(() => message.channel.bulkDelete(fetch), 3000)
     })
     .catch(err => console.log(err));
@@ -27,7 +27,7 @@ exports.run = async (client, message, args) => {
     client.user.setStatus('dnd')
     .then(async() => {
       message.channel.send("Stavio si status bota na do not disturb!")
-      let fetch = await message.channel.fetchMessages({ limit: 2 })
+      let fetch = await message.channel.messages.fetch({ limit: 2 })
       setTimeout(() => message.channel.bulkDelete(fetch), 3000)
     })
     .catch(err => console.log(err));
@@ -37,7 +37,7 @@ exports.run = async (client, message, args) => {
     client.user.setStatus('invisible')
     .then(async() => {
       message.channel.send("Stavio si status bota na offline!")
-      let fetch = await message.channel.fetchMessages({ limit: 2 })
+      let fetch = await message.channel.messages.fetch({ limit: 2 })
       setTimeout(() => message.channel.bulkDelete(fetch), 3000)
     })
     .catch(err => console.log(err));
@@ -46,7 +46,7 @@ exports.run = async (client, message, args) => {
   else {
     message.channel.send("Nisi napisao pravilan status!")
     .then(async() => {
-      let fetch = await message.channel.fetchMessages({ limit: 2 })
+      let fetch = await message.channel.messages.fetch({ limit: 2 })
       setTimeout(() => message.channel.bulkDelete(fetch), 3000)
     })
     .catch(err => console.log(err));
