@@ -1,18 +1,27 @@
 {
-  "name": "exotic-bot",
-  "version": "1.0.0",
-  "description": "Exotic Discord Bot",
+  "name": "elusive-bot12",
+  "version": "3.0.0b",
+  "description": "Elusive Discord Bot",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js"
   },
   "dependencies": {
-    "express": "^4.16.2",
-    "discord.js": "^11.3.0",
-    "enmap": "^5.2.4"
+    "better-sqlite3": "^5.4.3",
+    "delay": "^4.3.0",
+    "discord.js": "^12.1.1",
+    "enmap": "^5.2.4",
+    "express": "^4.17.1",
+    "hastebin-gen": "^2.0.5",
+    "ms": "^2.1.2",
+    "node-gyp": "^6.1.0",
+    "parse-ms": "^2.0.0",
+    "quick.db": "^7.0.0-b21",
+    "smart-timeout": "^2.1.1",
+    "util": "^0.12.1"
   },
   "engines": {
-    "node": "8.x"
+    "node": "12.x"
   },
   "repository": {
     "url": "https://glitch.com/edit/#!/build-a-discord-bot"

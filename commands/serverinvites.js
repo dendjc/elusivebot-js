@@ -28,7 +28,7 @@ exports.run = (client, message, args) => {
 
               invites = invites.join("\n\n");
 
-              let embed = new client.Discord.RichEmbed()
+              let embed = new client.Discord.MessageEmbed()
 
                 .setTitle("Sve pozivnice:")
 
@@ -42,6 +42,6 @@ exports.run = (client, message, args) => {
           });
       });
     } else {
-      message.reply("ovu komandu moûe koristiti samo developer!");
+      message.reply("ovu komandu mo≈æe koristiti samo developer!");
     }
 }

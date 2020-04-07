@@ -3,33 +3,35 @@ exports.run = async (client, message, args) => {
 
     // In the real world mods could ban too, but this is just an example, right? ;)
 
-    if (!message.member.hasPermission("BAN_MEMBERS", false, false))
-      return message.channel.send("Nemaš permisiju za korištenje ove komande!");
+    if (!message.member.permissions.has("BAN_MEMBERS", false, false))
+      return message.channel.send("NemaÅ¡ permisiju za koriÅ¡tenje ove komande!");
 
     let member = message.mentions.members.first();
 
     if (!member)
-      return message.channel.send("Oznaèi pravilnog èlana ovog servera!");
+      return message.channel.send("OznaÄi pravilnog Älana ovog servera!");
+
+    if(member.hasPermission("KICK_MEMBERS")) return message.channel.send("Taj Älan pripada STAFFu!");
 
     if (!member.bannable)
       return message.channel.send(
-        "Ne mogu banovati ovog èlana! Moda on ima veæi role ili ja nemam permisiju za ovu funkciju!"
+        "Ne mogu banovati ovog Älana! MoÅ¾da on/a ima veÄ‡i role ili ja nemam permisiju za ovu funkciju!"
       );
 
     let reason = args.slice(1).join(" ");
 
-    if (!reason) reason = "Nisi napisao razlog.";
+    if (!reason) reason = "Nisi napisao/la razlog.";
 
     await member
       .ban(reason)
 
       .catch(error =>
         message.channel.send(
-          `Izvinjavam se, ${message.author}. Nisam mogao banovati ovog èlana zbog: ${error}`
+          `Izvinjavam se, ${message.author}. Nisam mogao banovati ovog Älana zbog: ${error}`
         )
       );
 
     message.channel.send(
-      `${member.user.tag} je banovan od strane ${message.author.tag} zbog: ${reason}`
+      `${member.user.tag} je banovan/a od strane ${message.author.tag} zbog: ${reason}`
     );
 }

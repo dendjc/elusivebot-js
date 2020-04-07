@@ -1,7 +1,9 @@
 Elusive Bot
 =========================  
 
-**Elusive Bot** is online Discord moderation bot. It is developed by *Gandi* since March, 2020. Elusive Bot is written in `Node.js` using `Discord.js` library and is hosted on *Glitch*.
+**Elusive Bot** is online Discord moderation and economy bot. It is developed by *Gandi* since March, 2020. Elusive Bot is written in `Node.js` using `Discord.js` library and is hosted on *Glitch*.
+
+[Invite Elusive Bot](https://discordapp.com/oauth2/authorize?&client_id=686577912459427851&scope=bot&permissions=8)
 
 # More about Discord
   
