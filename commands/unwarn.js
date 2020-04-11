@@ -19,7 +19,7 @@ exports.run = async (client, message, args) => {
     if(memberwarns === null || memberwarns == 0) return message.channel.send("Taj član nema nijedan warn!");
     if(warns > memberwarns) return message.channel.send("Taj član nema toliko warnova (trenutno ih ima "+memberwarns+")");
     db.subtract(`warns_${message.guild.id}_${user.id}`, Number(warns))
-      message.channel.send("Očistio/la si warnove članu"+membername+" (broj očišćenih warnova: "+warns+").");
+      message.channel.send("Očistio/la si warnove članu "+membername+" (broj očišćenih warnova: "+warns+").");
       let warnlogs = await db.fetch(`logs_${message.guild.id}_warnlogs`);
       if(warnlogs === null) return;
       warnlogs = client.channels.cache.get(warnlogs);
@@ -36,7 +36,7 @@ exports.run = async (client, message, args) => {
     let memberwarns = await db.fetch(`warns_${message.guild.id}_${user.id}`);
     if(memberwarns === null || memberwarns == 0) return message.channel.send("Taj član nema warnove!");
     db.delete(`warns_${message.guild.id}_${user.id}`)
-      message.channel.send("Očistio/la si sve warnove tom članu!");
+      message.channel.send("Očistio/la si sve warnove članu "+membername);
       let warnlogs = await db.fetch(`logs_${message.guild.id}_warnlogs`);
       if(warnlogs === null) return;
       warnlogs = client.channels.cache.get(warnlogs);

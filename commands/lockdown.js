@@ -8,16 +8,18 @@ exports.run = (client, message, args) => {
     if(isNaN(time)) return message.channel.send("Nisi pravilno napisao/la dužinu vremena!");
   
     if(time == -1) {
-      message.channel.overwritePermissions(message.guild.id, {
-        SEND_MESSAGES: false
-      }).then(() => message.channel.send("**Kanal je zaključan** na neodređeno!"));
+      message.channel.overwritePermissions([ {
+        id: message.guild.id,
+        deny: ['SEND_MESSAGES']
+      }]).then(() => message.channel.send("**Kanal je zaključan** na neodređeno!"));
       return;
     }
   
     if(time == 0) {
-      message.channel.overwritePermissions(message.guild.id, {
-        SEND_MESSAGES: null
-      }).then(() => {
+      message.channel.overwritePermissions([ {
+        id: message.guild.id,
+        delete: ['SEND_MESSAGES']
+      }]).then(() => {
         message.channel.send("**Lockdown završen!**");
         clearTimeout(client.lockit[message.channel.id]);
         delete client.lockit[message.channel.id];
@@ -28,9 +30,10 @@ exports.run = (client, message, args) => {
     if(time < 10000 || time > 36000000) return message.channel.send("Ne možeš zaključati kanal kraće od 10s ili duže od 1h!");
 
     if (validUnlocks.includes(time)) {
-        message.channel.overwritePermissions(message.guild.id, {
-            SEND_MESSAGES: null
-        }).then(() => {
+        message.channel.overwritePermissions([ {
+            id: message.guild.id,
+            delete: ['SEND_MESSAGES']
+        }]).then(() => {
             message.channel.send('**Lockdown završen!**');
             clearTimeout(client.lockit[message.channel.id]);
             delete client.lockit[message.channel.id];
@@ -38,15 +41,17 @@ exports.run = (client, message, args) => {
             console.log(error);
         });
     } else {
-        message.channel.overwritePermissions(message.guild.id, {
-            SEND_MESSAGES: false
-        }).then(() => {
+        message.channel.overwritePermissions([ {
+            id: message.guild.id,
+            deny: ['SEND_MESSAGES']
+        }]).then(() => {
             message.channel.send(`**Kanal zaključan** na ${ms(ms(time), { long:true })}.`).then(() => {
 
                 client.lockit[message.channel.id] = setTimeout(() => {
-                    message.channel.overwritePermissions(message.guild.id, {
-                        SEND_MESSAGES: null
-                    }).then(message.channel.send('**Lockdown završen!**')).catch(console.error);
+                    message.channel.overwritePermissions([ {
+                        id: message.guild.id,
+                        delete: ['SEND_MESSAGES']
+                    }]).then(message.channel.send('**Lockdown završen!**')).catch(console.error);
                     delete client.lockit[message.channel.id];
                 }, ms(time));
 

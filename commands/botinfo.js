@@ -7,7 +7,7 @@ exports.run = async (client, message, args) => {
     .addField("**Ime**", client.config.ime)
     .addField("**Verzija**", client.config.verzija)
     .addField("**Developer**", client.config.dev.name)
-    .addField("**Broj servera**", client.guilds.size)
+    .addField("**Broj servera**", client.guilds.cache.size)
     .addField("Zadnji update", client.config.update)
     .setFooter(client.config.embed.footer)
     .setTimestamp();

@@ -6,7 +6,7 @@ module.exports = async (client, member) => {
   if(member.guild.id === guild.id) {
     client.channels.cache.get(guild.membercount).setName("Broj članova: "+member.guild.memberCount);
   }
-  const user = client.users.cache.get(member.id) || await client.users.fetch(member.id);
+  const user = client.users.cache.get(member.id);
   const usermoney = await db.fetch(`money_${member.guild.id}_${user.id}`);
   if(usermoney !== null) db.delete(`money_${member.guild.id}_${user.id}`);
   const userbank = await db.fetch(`bank_${member.guild.id}_${user.id}`);

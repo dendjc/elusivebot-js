@@ -6,7 +6,7 @@ module.exports = async (client, message) => {
   if(prefix === null) prefix = client.config.prefix;
   // Ignore all bots 
   if (message.author.bot) return; 
-  if(words.zabranjeno.some(word => message.content.toLowerCase().includes(word)) && !message.member.permissions.has("KICK_MEMBERS")) {
+  /* if(words.zabranjeno.some(word => message.content.toLowerCase().includes(word)) && !message.member.permissions.has("KICK_MEMBERS") && message.guild.id !== "696843134596022282") {
      let razlog = "Zabranjena riječ!";
      if(words.link.some(word => message.content.toLowerCase().includes(word)) && !message.member.permissions.has("KICK_MEMBERS")) 
         razlog = "Vanjski link/Discord pozivnica!";
@@ -17,7 +17,7 @@ module.exports = async (client, message) => {
      .setDescription("**Razlog:** "+razlog);
      message.delete().then(() => message.channel.send(forbiddenEmbed))
     .catch(err => console.log(err));
-  }
+  } */
   if(message.mentions.has(client.user) && !message.mentions.has(message.guild.id) && message.content.indexOf(prefix) !== 0) {
     message.delete(); 
     message.channel.send("Listu komandi i ostalo možeš naći na `"+prefix+"help`")

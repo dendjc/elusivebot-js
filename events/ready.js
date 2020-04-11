@@ -5,7 +5,7 @@ const Timeout = require("smart-timeout");
 
 module.exports = client => {
   console.log(
-    `Bot je startovan, sa ${client.users.size} korisnika, u ${client.channels.size} kanala na ${client.guilds.size} servera.`
+    `Bot je startovan, sa ${client.users.cache.size} korisnika, u ${client.channels.cache.size} kanala na ${client.guilds.cache.size} servera.`
   ); // Example of changing the bot's playing game to something useful. `client.user` is what the // docs refer to as the "ClientUser".
 
   client.user.setActivity(
@@ -15,8 +15,8 @@ module.exports = client => {
     if(gg.id === guild.id) {
       client.channels.cache.get(guild.membercount).setName("Broj članova: "+gg.memberCount);
     }
-    const func = async () => {
-      let mute = await db.startsWith(`mutetime_${gg.id}`);;
+    (async () => {
+      let mute = await db.all().filter(data => data.ID.startsWith(`mutetime_${gg.id}`));
       for(let i = 0; i < mute.length; i++) {
         let userid = mute[i].ID.split("_")[2];
         let mutetime = await db.fetch(`mutetime_${gg.id}_${userid}`);
@@ -34,11 +34,11 @@ module.exports = client => {
                   }
                 })
                 .then(role => {
-                  gg.channels.forEach(channel => {
-                    channel.overwritePermissions(role.id, {
-                      SEND_MESSAGES: false,
-                      ADD_REACTIONS: false
-                    });
+                  gg.channels.cache.forEach(channel => {
+                    channel.overwritePermissions([{
+                      id: role.id,
+                      deny: ['SEND_MESSAGES', 'ADD_REACTIONS']
+                    }]);
                   });
                 });
               }
@@ -81,18 +81,17 @@ module.exports = client => {
                 permissions: []
               }
             }).then(role => {
-              gg.channels.forEach(channel => {
-                channel.overwritePermissions(role.id, {
-                  SEND_MESSAGES: false,
-                  ADD_REACTIONS: false
-                });
+              gg.channels.cache.forEach(channel => {
+                channel.overwritePermissions([{
+                  id: role.id,
+                  deny: ['SEND_MESSAGES', 'ADD_REACTIONS']
+                }]);
               });
             });
           }
           member.roles.remove(muted).then(() => db.delete(`mutetime_${gg.id}_${userid}`));
         }
       }
-    }
-    func();
+    })()
   });
 };
