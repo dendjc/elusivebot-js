@@ -42,11 +42,11 @@ exports.run = async (client, message, args) => {
       }
     })
     .then(role => {
-      message.guild.channels.forEach(channel => {
-        channel.overwritePermissions(role.id, {
-          SEND_MESSAGES: false,
-          ADD_REACTIONS: false
-        });
+      message.guild.channels.cache.forEach(channel => {
+        channel.overwritePermissions([ {
+          id: role.id,
+          deny: ['SEND_MESSAGES', 'ADD_REACTIONS']
+        }]);
       });
     });
   }

@@ -1,6 +1,6 @@
 {
-  "name": "elusive-bot12",
-  "version": "3.0.0b",
+  "name": "elusive-bot",
+  "version": "3.1.0b",
   "description": "Elusive Discord Bot",
   "main": "bot.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "ms": "^2.1.2",
     "node-gyp": "^6.1.0",
     "parse-ms": "^2.0.0",
-    "quick.db": "^7.0.0-b21",
+    "quick.db": "^7.1.1",
     "smart-timeout": "^2.1.1",
     "util": "^0.12.1"
   },

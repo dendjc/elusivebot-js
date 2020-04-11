@@ -3,7 +3,7 @@ const db = require('quick.db')
 
 exports.run = async (client, message, args) => {
   
-    let money = await db.startsWith(`money_${message.guild.id}`, { sort: '.data'})
+    let money = await db.all().filter(data => data.ID.startsWith(`money_${message.guild.id}`)).sort((a,b) => b.data - a.data);
     let content = "";
 
     for (let i = 0; i < money.length; i++) {
