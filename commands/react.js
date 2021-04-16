@@ -1,5 +1,12 @@
 exports.run = async (client, message, args) => {
-  if(!message.member.permissions.has("ADMINISTRATOR")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
+  let allowed = false;
+  let conf = exports.conf;
+  if(message.member.permissions.has("ADMINISTRATOR")) allowed = true;
+  conf.allowed.forEach(a => {
+  if(!allowed && message.author.id === a) allowed = true;
+  });
+
+  if(!allowed) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
   
   let reactionname = args[0];
   if(!reactionname) return message.channel.send("Nisi napisao/la ime emojia!");
@@ -32,3 +39,13 @@ exports.run = async (client, message, args) => {
     });
   }
 }
+exports.conf = {
+    allowed: ["649708455342505984"]
+}
+exports.help = {
+    name: 'react',
+    description: 'reagovanje na poruku',
+    usage: 'react [ime emojia] [ID poruke] [vrsta (1-2)]',
+    category: 'admin',
+    listed: true
+};

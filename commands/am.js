@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const db = require("quick.db");
 
 exports.run = async (client, message, args) => {
-  let ownerID = ["495897264108339200", "649708455342505984"]
+  let ownerID = ["490605344892911627", "649708455342505984"]
   var allowed = false;
   ownerID.forEach(id => {
   if(message.author.id == id) {
@@ -31,7 +31,10 @@ exports.run = async (client, message, args) => {
 
 };
 
-module.exports.help = {
-  name:"add",
-  aliases: ["am"]
-}
+exports.help = {
+    name: 'am',
+    description: 'davanje novca korisnicima',
+    usage: 'am [@mention] [količina]',
+    category: 'economy-a',
+    listed: true
+};

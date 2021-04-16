@@ -193,3 +193,10 @@ exports.run = async (client, message, args) => {
     .then(msg => msg.delete({ timeout: 5000 }));
   });
 }
+exports.help = {
+    name: 'settings',
+    description: 'postavke servera',
+    usage: 'settings',
+    category: 'admin',
+    listed: false
+};

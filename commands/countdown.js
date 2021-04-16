@@ -16,3 +16,10 @@ exports.run = async (client, message, args) => {
     msg.edit(embed);
   }
 }
+exports.help = {
+    name: 'countdown',
+    description: 'odbrojavanje',
+    usage: 'countdown [broj (1-20)]',
+    category: 'main',
+    listed: true
+};

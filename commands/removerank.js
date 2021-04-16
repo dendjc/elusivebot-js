@@ -1,5 +1,12 @@
 exports.run = async (client, message, args) => {
-  if(!message.member.permissions.has("ADMINISTRATOR")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
+  let allowed = false;
+  let conf = exports.conf;
+  if(message.member.permissions.has("ADMINISTRATOR")) allowed = true;
+  conf.allowed.forEach(a => {
+  if(!allowed && message.author.id === a) allowed = true;
+  });
+
+  if(!allowed) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
   
   let bronze = message.guild.roles.cache.get(client.server.bronzevip);
   let silver = message.guild.roles.cache.get(client.server.silvervip);
@@ -19,3 +26,13 @@ exports.run = async (client, message, args) => {
   if(!user.roles.has(bronze.id) && !user.roles.has(silver.id) && !user.roles.has(gold.id) && !user.roles.has(platinum.id)) return message.channel.send(`Član ${user} nema nikakav rank!`);
   message.channel.send(`Članu ${user} je izbrisan rank!`);
 }
+exports.conf = {
+    allowed: ["649708455342505984"]
+}
+exports.help = {
+    name: 'removerank',
+    description: 'skidanje ranka članovima',
+    usage: 'removerank [@mention] [broj (1-4)]',
+    category: 'economy-a',
+    listed: true
+};

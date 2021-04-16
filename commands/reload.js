@@ -12,3 +12,10 @@ exports.run = (client, message, args) => {
   client.commands.set(commandName, props); 
   message.channel.send(`Komanda ${commandName} je reloadana!`); 
 };
+exports.help = {
+    name: 'reload',
+    description: 'reloadanje komande',
+    usage: 'reload [ime komande]',
+    category: 'dev',
+    listed: false
+};

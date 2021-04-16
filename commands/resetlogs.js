@@ -1,7 +1,14 @@
 const db = require("quick.db");
 
 exports.run = async (client, message, args) => {
-  if(!message.member.permissions.has("ADMINISTRATOR")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
+  let allowed = false;
+  let conf = exports.conf;
+  if(message.member.permissions.has("ADMINISTRATOR")) allowed = true;
+  conf.allowed.forEach(a => {
+  if(!allowed && message.author.id === a) allowed = true;
+  });
+
+  if(!allowed) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
   
   let broj = args[0];
   if(!broj) return message.channel.send("Nisi napisao/la vrstu logging kanala!\n1 - logging za poruke,\n2 - logging za ulaz/izlaz članova sa servera,\n3 - logging za warn!");
@@ -31,3 +38,13 @@ exports.run = async (client, message, args) => {
     message.channel.send("Resetovao si logging kanal za warn!");
   }
 }
+exports.conf = {
+    allowed: ["649708455342505984"]
+}
+exports.help = {
+    name: 'resetlogs',
+    description: 'resetovanje kanala za logging',
+    usage: 'resetlogs [vrsta (1-3)]',
+    category: 'admin',
+    listed: true
+};

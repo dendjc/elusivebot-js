@@ -1,5 +1,13 @@
 exports.run = async (client, message, args) => {
-  if(!message.member.permissions.has('ADMINISTRATOR', false, false)) return message.reply("nemaš permisiju za korištenje ove komande!");
+  let allowed = false;
+  let conf = exports.conf;
+  if(message.member.permissions.has('MANAGE_NICKNAMES', false, false)) allowed = true;
+  conf.allowed.forEach(a => {
+    if(!allowed && message.author.id === a) allowed = true;
+  });
+  
+  if(!allowed) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
+  
   let tagged = message.mentions.users.first();
   if(tagged === message.author) return message.channel.send("Za mjenjanje svog nicka koristi **"+client.config.prefix+"nick**!");
   let taggedmember = message.mentions.members.first();
@@ -14,3 +22,13 @@ exports.run = async (client, message, args) => {
   .setDescription(`**Stari nick:** ${starinick}\n**Novi nick:** ${nick}`);
   message.guild.member(tagged).setNickname(nick).then(() => message.channel.send(nickEmbed)).catch(err => message.channel.send("Nisam mogao promjeniti nick tog člana zbog: "+err));
 }
+exports.conf = {
+    allowed: ["649708455342505984"]
+}
+exports.help = {
+    name: 'anick',
+    description: 'mjenjanje nicka članovima',
+    usage: 'anick [@mention] [nick]',
+    category: 'moderation',
+    listed: true
+};

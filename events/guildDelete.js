@@ -7,40 +7,6 @@ module.exports = async (client, guild) => {
     `${client.config.ime} || v${client.config.verzija} || ʙᴇᴛᴀ`
   );
   
-  let money = await db.startsWith(`money_${guild.id}`);
-  for(let i = 0; i < money.length; i++) {
-    let userid = money[i].ID.split("_")[2];
-    let data = await db.fetch(`money_${guild.id}_${userid}`);
-    if(data !== null) db.delete(`money_${guild.id}_${userid}`);
-  }
-  let bank = await db.startsWith(`bank_${guild.id}`);
-  for(let i = 0; i < bank.length; i++) {
-    let userid = bank[i].ID.split("_")[2];
-    let data = await db.fetch(`bank_${guild.id}_${userid}`);
-    if(data !== null) db.delete(`bank_${guild.id}_${userid}`);
-  }
-  let daily = await db.startsWith(`daily_${guild.id}`);
-  for(let i = 0; i < daily.length; i++) {
-    let userid = daily[i].ID.split("_")[2];
-    let data = await db.fetch(`daily_${guild.id}_${userid}`);
-    if(data !== null) db.delete(`daily_${guild.id}_${userid}`);
-  }
-  let weekly = await db.startsWith(`weekly_${guild.id}`);
-  for(let i = 0; i < weekly.length; i++) {
-    let userid = weekly[i].ID.split("_")[2];
-    let data = await db.fetch(`weekly_${guild.id}_${userid}`);
-    if(data !== null) db.delete(`weekly_${guild.id}_${userid}`);
-  }
-  let mutetime = await db.startsWith(`mutetime_${guild.id}`);
-  for(let i = 0; i < mutetime.length; i++) {
-    db.delete(mutetime[i].ID);
-  }
-  let msglogs = await db.fetch(`logs_${guild.id}_msglogs`);
-  if(msglogs !== null) db.delete(`logs_${guild.id}_msglogs`);
-  let memberlogs = await db.fetch(`logs_${guild.id}_memberlogs`);
-  if(memberlogs !== null) db.delete(`logs_${guild.id}_memberlogs`);
-  let warnlogs = await db.fetch(`logs_${guild.id}_warnlogs`);
-  if(warnlogs !== null) db.delete(`logs_${guild.id}_warnlogs`);
-  let prefix = await db.fetch(`settings_${guild.id}_prefix`);
-  if(prefix !== null) db.delete(`settings_${guild.id}_prefix`);
+  let data = await db.all().filter(data => data.ID.includes(guild.id));
+  data.forEach(d => db.delete(d.ID));
 }

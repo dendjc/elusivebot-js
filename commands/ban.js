@@ -1,17 +1,23 @@
 exports.run = async (client, message, args) => {
-  // Most of this command is identical to kick, except that here we'll only let admins do it.
-
-    // In the real world mods could ban too, but this is just an example, right? ;)
-
-    if (!message.member.permissions.has("BAN_MEMBERS", false, false))
-      return message.channel.send("Nemaš permisiju za korištenje ove komande!");
+    let allowed = false;
+    let allowed2 = false;
+    let conf = exports.conf;
+    if (message.member.permissions.has("BAN_MEMBERS", false, false)) allowed = true;
+    conf.allowed.forEach(a => {
+      if(!allowed && message.author.id === a) {
+       allowed = true;
+        allowed2 = true;
+      }
+    });
+  
+    if(!allowed) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
 
     let member = message.mentions.members.first();
 
     if (!member)
       return message.channel.send("Označi pravilnog člana ovog servera!");
 
-    if(member.hasPermission("KICK_MEMBERS")) return message.channel.send("Taj član pripada STAFFu!");
+    if(member.permissions.has("MANAGE_MESSAGES") && !allowed2) return message.channel.send("Taj član pripada STAFFu!");
 
     if (!member.bannable)
       return message.channel.send(
@@ -35,3 +41,13 @@ exports.run = async (client, message, args) => {
       `${member.user.tag} je banovan/a od strane ${message.author.tag} zbog: ${reason}`
     );
 }
+exports.conf = {
+    allowed: ["649708455342505984", "495897264108339200"]
+}
+exports.help = {
+    name: 'ban',
+    description: 'banovanje članova',
+    usage: 'ban [@mention] [razlog]',
+    category: 'admin',
+    listed: true
+};

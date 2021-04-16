@@ -1,10 +1,14 @@
 const db = require("quick.db");
 
 exports.run = async (client, message, args) => {
-  // This command removes all messages from all users in the channel, up to 100.
-
-    if (!message.member.permissions.has("MANAGE_MESSAGES", false, false))
-      return message.reply("nemaš permisiju za korištenje ove komande!"); // get the delete count, as an actual number.
+    let allowed = false;
+    let conf = exports.conf;
+    if (message.member.permissions.has("MANAGE_MESSAGES", false, false)) allowed = true;
+    conf.allowed.forEach(a => {
+      if(!allowed && message.author.id === a) allowed = true;
+    });
+  
+    if(!allowed) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
 
     let deleteCount = parseInt(args[0], 10); // Ooooh nice, combined conditions. <3
 
@@ -34,6 +38,7 @@ exports.run = async (client, message, args) => {
           .setColor("#FFFFFF")
           .setAuthor(message.author.username+" je koristio komandu "+client.config.prefix+"clear", message.author.displayAvatarURL())
           .setDescription("**Kanal:** "+message.channel.name)
+          .addField("Broj obrisanih poruka", `${deleteCount}`)
           .setFooter(client.config.embed.footer)
           .setTimestamp();
           if(i == 0) logs.send(logsEmbed);
@@ -45,3 +50,13 @@ exports.run = async (client, message, args) => {
         message.reply(`nisam mogao izbrisati poruke zbog: ${error}`)
       );
 }
+exports.conf = {
+    allowed: ["649708455342505984"]
+}
+exports.help = {
+    name: 'clear',
+    description: 'brisanje poruka',
+    usage: 'clear [broj (1-100)]',
+    category: 'moderation',
+    listed: true
+};

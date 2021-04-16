@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 
 exports.run = async (client, message, args) => {
 
-    if(message.channel.id !== "687777887633670209") return message.channel.send("Ovu komandu možeš koristiti samo u kanalu <#687777887633670209>");
+    if(message.channel.id !== "720037491922436238") return message.channel.send("Ovu komandu možeš koristiti samo u kanalu <#720037491922436238>");
   
     let user = message.author;
     let moneydb = await db.fetch(`money_${message.guild.id}_${user.id}`)
@@ -25,6 +25,7 @@ exports.run = async (client, message, args) => {
 
     if (!money) return message.channel.send(moneyhelp);
     if (money != args[0]) return message.channel.send(incorrect);
+    if(money < 1) return message.channel.send("Ne možeš uložiti manje od 1$");
     if (money > moneydb) return message.channel.send(moneymore);
 
     let number = []
@@ -52,8 +53,10 @@ exports.run = async (client, message, args) => {
     }
 
 }
-
-  module.exports.help = {
-    name:"slots",
-    aliases: ["sl"]
-  }
+exports.help = {
+    name: 'slots',
+    description: 'slot mašina',
+    usage: 'slots [iznos]',
+    category: 'economy',
+    listed: true
+};

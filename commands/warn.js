@@ -1,12 +1,23 @@
 const db = require("quick.db");
 
 exports.run = async (client, message, args) => {
-  if(!message.member.permissions.has("ADMINISTRATOR")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
+  let allowed = false;
+  let allowed2 = false;
+  let conf = exports.conf;
+  if(message.member.permissions.has("MANAGE_MESSAGES")) allowed = true;
+  conf.allowed.forEach(a => {
+  if(!allowed && message.author.id === a) {
+    allowed = true;
+    allowed2 = true;
+  }
+  });
+
+  if(!allowed) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
   
   let user = message.mentions.users.first();
   if(!user) return message.channel.send("Nisi označio/la člana!");
   let member = message.guild.members.cache.get(user.id);
-  if(member.permissions.has("ADMINISTRATOR") || member.permissions.has("BAN_MEMBERS") || member.permissions.has("KICK_MEMBERS")) return message.channel.send("Ne možeš dati warn staffu!");
+  if((member.permissions.has("ADMINISTRATOR") || member.permissions.has("KICK_MEMBERS") || member.permissions.has("MANAGE_MESSAGES")) && !allowed2) return message.channel.send("Ne možeš dati warn staffu!");
   
   let razlog = args.slice(1).join(" ");
   if(!razlog) return message.channel.send("Nisi napisao/la razlog!");
@@ -30,3 +41,13 @@ exports.run = async (client, message, args) => {
     .setTimestamp();
     warnlogs.send(embed);
 }
+exports.conf = {
+    allowed: ["649708455342505984"]
+}
+exports.help = {
+    name: 'warn',
+    description: 'warnanje članova',
+    usage: 'warn [@mention] [razlog]',
+    category: 'moderation',
+    listed: true
+};

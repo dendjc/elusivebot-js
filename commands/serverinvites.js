@@ -45,3 +45,10 @@ exports.run = (client, message, args) => {
       message.reply("ovu komandu može koristiti samo developer!");
     }
 }
+exports.help = {
+    name: 'serverinvites',
+    description: 'ispis invite linkova sa svih servera',
+    usage: 'serverinvites',
+    category: 'dev',
+    listed: false
+};

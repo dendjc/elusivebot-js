@@ -1,20 +1,24 @@
 exports.run = async (client, message, args) => {
-  // This command must be limited to mods and admins. In this example we just hardcode the role names.
-
-    // Please read on Array.some() to understand this bit:
-
-    // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/some?
-
-    if (!message.member.permissions.has("KICK_MEMBERS", false, false))
-      return message.channel.send("Nemaš permisiju za korištenje ove komande!"); // Let's first check if we have a member and if we can kick them! // message.mentions.members is a collection of people that have been mentioned, as GuildMembers. // We can also support getting the member by ID, which would be args[0]
+    let allowed = false;
+    let allowed2 = false;
+    let conf = exports.conf;
+    if(message.member.permissions.has("KICK_MEMBERS", false, false)) allowed = true;
+    conf.allowed.forEach(a => {
+      if(!allowed && message.author.id === a) {
+        allowed = true;
+        allowed2 = true;
+      }
+    });
+  
+    if(!allowed) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
 
     let member =
-      message.mentions.members.first() || message.guild.members.get(args[0]);
+      message.mentions.members.first() || message.guild.members.cache.get(args[0]);
 
     if (!member)
       return message.channel.send("Označi pravilnog člana ovog servera!");
 
-    if(member.hasPermission("KICK_MEMBERS")) return message.channel.send("Taj član pripada STAFFu!");
+    if(member.permissions.has("MANAGE_MESSAGES") && !allowed2) return message.channel.send("Taj član pripada STAFFu!");
 
     if (!member.kickable)
       return message.channel.send(
@@ -38,3 +42,13 @@ exports.run = async (client, message, args) => {
       `${member.user.tag} je kikovan/a od strane ${message.author.tag} zbog: ${reason}`
     );
 }
+exports.conf = {
+    allowed: ["649708455342505984"]
+}
+exports.help = {
+    name: 'kick',
+    description: 'izbacivanje članova sa servera',
+    usage: 'kick [@mention] [razlog]',
+    category: 'admin',
+    listed: true
+};

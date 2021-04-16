@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const db = require("quick.db");
 
 exports.run = async (client, message, args) => { 
-  let ownerID = ["495897264108339200", "649708455342505984"]
+  let ownerID = ["490605344892911627", "649708455342505984"]
   var allowed = false;
   ownerID.forEach(id => {
     if(message.author.id == id) {
@@ -17,7 +17,7 @@ exports.run = async (client, message, args) => {
   if(!user) return message.channel.send("Nisi označio/la člana kojem želiš oduzeti novac!");
     let ec = parseInt(args[1], 10);
     if (!ec) return message.channel.send("Nisi napisao/la količinu novca koje želiš oduzeti članu!");
-    if(ec < 1 || ec > 100000) return message.channel.send("Ne možeš oduzeti manje od 1$ ili više od 100000$");
+    if(ec < 1) return message.channel.send("Ne možeš oduzeti manje od 1$");
     db.subtract(`money_${message.guild.id}_${user.id}`, ec)
     let bal = await db.fetch(`money_${message.guild.id}_${user.id}`)
 
@@ -27,9 +27,10 @@ exports.run = async (client, message, args) => {
     message.channel.send(moneyEmbed)
 
 };
-
-
-module.exports.help = {
-  name:"remove",
-  aliases: ["rm"]
-}
+exports.help = {
+    name: 'rm',
+    description: 'oduzimanje novca članovima',
+    usage: 'rm [@mention] [iznos]',
+    category: 'economy-a',
+    listed: true
+};

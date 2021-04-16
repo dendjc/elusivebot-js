@@ -2,7 +2,7 @@
 
 // svakih 5 minuta pinga glitch
 
-const ping = require("./ping.js")
+const ping = require("./ping.js");
 
 ping.on();
 
@@ -46,38 +46,63 @@ const cooldown = new Set();
 
 client.cooldown = cooldown;
 
-// This loop reads the /events/ folder and attaches each event file to the appropriate event. 
-fs.readdir("./events/", (err, files) => { 
-  if (err) return console.error(err); 
-  files.forEach(file => { 
-    // If the file is not a JS file, ignore it (thanks, Apple) 
-    if (!file.endsWith(".js")) return; 
-    // Load the event file itself 
-    const event = require(`./events/${file}`); 
-    // Get just the event name from the file name 
-    let eventName = file.split(".")[0]; 
-    // super-secret recipe to call events with all their proper arguments *after* the `client` var. 
-    // without going into too many details, this means each event will be called with the client argument, 
-    // followed by its "normal" arguments, like message, member, etc etc. 
-    // This line is awesome by the way. Just sayin'. 
-    client.on(eventName, event.bind(null, client)); 
-    delete require.cache[require.resolve(`./events/${file}`)]; 
-  }); 
+const AntiSpam = require("discord-anti-spam");
+
+const antiSpam = new AntiSpam({
+  warnThreshold: 3, // Amount of messages sent in a row that will cause a warning.
+  kickThreshold: 7, // Amount of messages sent in a row that will cause a ban.
+  banThreshold: 7, // Amount of messages sent in a row that will cause a ban.
+  maxInterval: 2000, // Amount of time (in milliseconds) in which messages are considered spam.
+  warnMessage: "{@user}, prestani spamati!", // Message that will be sent in chat upon warning a user.
+  kickMessage: "**{user_tag}** je kikovan zbog spama!", // Message that will be sent in chat upon kicking a user.
+  banMessage: "**{user_tag}** je banovan zbog spama!", // Message that will be sent in chat upon banning a user.
+  maxDuplicatesWarning: 7, // Amount of duplicate messages that trigger a warning.
+  maxDuplicatesKick: 10, // Amount of duplicate messages that trigger a warning.
+  maxDuplicatesBan: 12, // Amount of duplicate messages that trigger a warning.
+  exemptPermissions: ["ADMINISTRATOR"], // Bypass users with any of these permissions.
+  ignoreBots: true, // Ignore bot messages.
+  verbose: true, // Extended Logs from module.
+  ignoredUsers: [] // Array of User IDs that get ignored. // And many more options... See the documentation.
 });
 
-client.commands = new Enmap(); 
-fs.readdir("./commands/", (err, files) => { 
-  if (err) return console.error(err); 
-  files.forEach(file => { 
-    if (!file.endsWith(".js")) return; 
-    // Load the command file itself 
-    let props = require(`./commands/${file}`); 
-    // Get just the command name from the file name 
-    let commandName = file.split(".")[0]; 
-    console.log(`Pokušavam pokrenuti komandu ${commandName}`); 
-    // Here we simply store the whole thing in the command Enmap. We're not running it right now. 
-    client.commands.set(commandName, props); 
-  }); 
+client.antiSpam = antiSpam;
+
+client.invites = {};
+
+// This loop reads the /events/ folder and attaches each event file to the appropriate event.
+fs.readdir("./events/", (err, files) => {
+  if (err) return console.error(err);
+  files.forEach(file => {
+    // If the file is not a JS file, ignore it (thanks, Apple)
+    if (!file.endsWith(".js")) return;
+    // Load the event file itself
+    const event = require(`./events/${file}`);
+    // Get just the event name from the file name
+    let eventName = file.split(".")[0];
+    // super-secret recipe to call events with all their proper arguments *after* the `client` var.
+    // without going into too many details, this means each event will be called with the client argument,
+    // followed by its "normal" arguments, like message, member, etc etc.
+    // This line is awesome by the way. Just sayin'.
+    client.on(eventName, event.bind(null, client));
+    delete require.cache[require.resolve(`./events/${file}`)];
+  });
 });
-  
- client.login(process.env.DISCORD_TOKEN);
+
+client.commands = new Enmap();
+fs.readdir("./commands/", (err, files) => {
+  if (err) return console.error(err);
+  files.forEach(file => {
+    if (!file.endsWith(".js")) return;
+    // Load the command file itself
+    let props = require(`./commands/${file}`);
+    // Get just the command name from the file name
+    let commandName = file.split(".")[0];
+    console.log(`Pokušavam pokrenuti komandu ${commandName}`);
+    // Here we simply store the whole thing in the command Enmap. We're not running it right now.
+    client.commands.set(commandName, props);
+  });
+});
+
+
+
+client.login(process.env.DISCORD_TOKEN);

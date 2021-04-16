@@ -3,7 +3,14 @@ const db = require("quick.db");
 const Timeout = require("smart-timeout");
 
 exports.run = async (client, message, args) => {
-  if(!message.member.permissions.has("MANAGE_MESSAGES")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
+  let allowed = false;
+  let conf = exports.conf;
+  if(message.member.permissions.has("MANAGE_MESSAGES")) allowed = true;
+  conf.allowed.forEach(a => {
+  if(!allowed && message.author.id === a) allowed = true;
+  });
+
+  if(!allowed) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
   
   let member = message.mentions.members.first();
   if(!member) return message.channel.send("Nisi označio/la člana!");
@@ -19,10 +26,10 @@ exports.run = async (client, message, args) => {
     })
     .then(role => {
       message.guild.channels.cache.forEach(channel => {
-        channel.overwritePermissions([ {
-          id: role.id,
-          deny: ['SEND_MESSAGES', 'ADD_REACTIONS']
-        }]);
+        channel.updateOverwrite(role.id, {
+          SEND_MESSAGES: false,
+          ADD_REACTIONS: false
+        });
       });
     });
   }
@@ -49,3 +56,13 @@ exports.run = async (client, message, args) => {
   })
   .catch(err => message.channel.send("Nisam mogao odmutirati tog člana zbog: "+err));
 }
+exports.conf = {
+    allowed: ["649708455342505984"]
+}
+exports.help = {
+    name: 'unmute',
+    description: 'odmutiranje članova',
+    usage: 'unmute [@mention]',
+    category: 'moderation',
+    listed: true
+};

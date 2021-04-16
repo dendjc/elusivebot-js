@@ -2,6 +2,11 @@ const Discord = require("discord.js");
 const db = require("quick.db");
 
 exports.run = async (client, message, args) => {
+  
+    if (message.channel.id !== "720037477146165399")
+    return message.channel.send(
+      "Ovu komandu možeš koristiti samo u kanalu <#720037477146165399>"
+      )
 
   let user = message.mentions.members.first() || message.author;
   let userr = message.mentions.users.first() || message.author;
@@ -19,8 +24,10 @@ exports.run = async (client, message, args) => {
   .setDescription(`**Stanje na računu člana ${user}**\n\nDžep: ${bal}$\nBanka: ${bank}$`);
   message.channel.send(moneyEmbed)
 };
-
-module.exports.help = {
-  name:"balance",
-  aliases: ["bal"]
-}
+exports.help = {
+    name: 'bal',
+    description: 'stanje na računu',
+    usage: 'bal [@mention (neobavezno)]',
+    category: 'economy',
+    listed: true
+};

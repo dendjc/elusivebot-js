@@ -1,7 +1,14 @@
 const db = require("quick.db");
 
 exports.run = async (client, message, args) => {
-  if(!message.member.permissions.has("ADMINISTRATOR")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
+  let allowed = false;
+  let conf = exports.conf;
+  if(message.member.permissions.has("MANAGE_MESSAGES")) allowed = true;
+  conf.allowed.forEach(a => {
+  if(!allowed && message.author.id === a) allowed = true;
+  });
+
+if(!allowed) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
   
   let user = message.mentions.users.first();
   if(!user) return message.channel.send("Nisi označio/la člana!");
@@ -19,6 +26,8 @@ exports.run = async (client, message, args) => {
     if(memberwarns === null || memberwarns == 0) return message.channel.send("Taj član nema nijedan warn!");
     if(warns > memberwarns) return message.channel.send("Taj član nema toliko warnova (trenutno ih ima "+memberwarns+")");
     db.subtract(`warns_${message.guild.id}_${user.id}`, Number(warns))
+    memberwarns = await db.fetch(`warns_${message.guild.id}_${user.id}`);
+    if(memberwarns == 0) db.delete(`warns_${message.guild.id}_${user.id}`);
       message.channel.send("Očistio/la si warnove članu "+membername+" (broj očišćenih warnova: "+warns+").");
       let warnlogs = await db.fetch(`logs_${message.guild.id}_warnlogs`);
       if(warnlogs === null) return;
@@ -49,3 +58,13 @@ exports.run = async (client, message, args) => {
       warnlogs.send(embed);
   }
 }
+exports.conf = {
+    allowed: ["649708455342505984"]
+}
+exports.help = {
+    name: 'unwarn',
+    description: 'brisanje warnova članovima',
+    usage: 'unwarn [@mention] [broj (1-20) ili all]',
+    category: 'moderation',
+    listed: true
+};

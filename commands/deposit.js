@@ -3,6 +3,12 @@ const db = require("quick.db");
 const ms = require("parse-ms");
 
 exports.run = async (client, message, args) => {
+  
+    if (message.channel.id !== "720037477146165399")
+    return message.channel.send(
+      "Ovu komandu možeš koristiti samo u kanalu <#720037477146165399>"
+      
+      )
 
   let user = message.author;
 
@@ -73,7 +79,10 @@ exports.run = async (client, message, args) => {
   db.subtract(`money_${message.guild.id}_${user.id}`, Number(args[0]))
   }
 }
-module.exports.help = {
-  name:"deposit",
-  aliases: ["dep"]
-}
+exports.help = {
+    name: 'deposit',
+    description: 'stavljanje novca na banku',
+    usage: 'deposit [iznos]',
+    category: 'economy',
+    listed: true
+};

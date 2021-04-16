@@ -1,5 +1,12 @@
 exports.run = async (client, message, args) => {
-  if(!message.member.permissions.has("ADMINISTRATOR")) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
+  let allowed = false;
+  let conf = exports.conf;
+  if(message.member.permissions.has("ADMINISTRATOR")) allowed = true;
+  conf.allowed.forEach(a => {
+    if(!allowed && message.author.id === a) allowed = true;
+  });
+  
+  if(!allowed) return message.channel.send("Nemaš permisiju za korištenje ove komande!");
   
   let bronze = message.guild.roles.cache.get(client.server.bronzevip);
   let silver = message.guild.roles.cache.get(client.server.silvervip);
@@ -65,3 +72,13 @@ exports.run = async (client, message, args) => {
     message.channel.send("Unio/la si nepravilan broj (broj treba biti 1-4). Spisak rankova imaš na **"+client.config.prefix+"shop**.");
   }
 }
+exports.conf = {
+    allowed: ["649708455342505984"]
+}
+exports.help = {
+    name: 'addrank',
+    description: 'davanje ranka članovima',
+    usage: 'addrank [@mention] [broj (1-4)]',
+    category: 'economy-a',
+    listed: true
+};

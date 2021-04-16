@@ -11,21 +11,46 @@ module.exports = client => {
   client.user.setActivity(
     `${client.config.ime} || v${client.config.verzija} || ʙᴇᴛᴀ`
   );
+  let server = client.guilds.cache.get(guild.id);
+  if(server) client.channels.cache.get(guild.membercount).setName("ʙʀᴏᴊ Čʟᴀɴᴏᴠᴀ: "+server.memberCount);
   client.guilds.cache.forEach(gg => {
-    if(gg.id === guild.id) {
-      client.channels.cache.get(guild.membercount).setName("Broj članova: "+gg.memberCount);
-    }
     (async () => {
+      let status = await db.fetch(`code_${gg.id}_status`);
+      if(status !== null && status.code == 3) {
+        let time = status.time - (Date.now() - status.date);
+        if(time > 0) {
+          Timeout.set("status_3_" + gg.id, () => {
+            let member = gg.members.cache.get(client.user.id);
+            gg.channels.cache.get(status.channel).send("**[STATUS-3]** Završen!")
+            .then(() => {
+              member.setNickname(client.user.username);
+              db.set(`code_${gg.id}_status`, { code: 1 });
+            });
+          }, time);
+        }
+        else {
+          let member = gg.members.cache.get(client.user.id);
+          gg.channels.cache.get(status.channel).send("**[STATUS-3]** Završen!")
+          .then(() => {
+            member.setNickname(client.user.username);
+            db.set(`code_${gg.id}_status`, { code: 1 });
+          });
+        }
+      }
+      
       let mute = await db.all().filter(data => data.ID.startsWith(`mutetime_${gg.id}`));
       for(let i = 0; i < mute.length; i++) {
+        let e = 0;
         let userid = mute[i].ID.split("_")[2];
+        let member = await gg.members.fetch(userid).catch(() => e++);
+        if(e != 0) db.delete(mute[i].ID);
+        else {
         let mutetime = await db.fetch(`mutetime_${gg.id}_${userid}`);
         let time = mutetime.time - (Date.now() - mutetime.date);
         if(time > 0) {
           Timeout.set("mute_" + gg.id + "_" + userid, async() => {
             try {
-              let member = gg.members.cache.get(userid);
-              let muted = gg.roles.cache.find(r => r.name === "Muted");
+              let muted = gg.roles.cache.find(r => r.name === muted);
               if(!muted) {
                 muted = await gg.roles.create({
                   data: {
@@ -35,10 +60,10 @@ module.exports = client => {
                 })
                 .then(role => {
                   gg.channels.cache.forEach(channel => {
-                    channel.overwritePermissions([{
-                      id: role.id,
-                      deny: ['SEND_MESSAGES', 'ADD_REACTIONS']
-                    }]);
+                    channel.updateOverwrite(role.id, {
+                      SEND_MESSAGES: false,
+                      ADD_REACTIONS: false
+                    });
                   });
                 });
               }
@@ -72,8 +97,7 @@ module.exports = client => {
           }, time);
         }
         else {
-          let member = gg.members.cache.get(userid);
-          let muted = gg.roles.cache.find(r => r.name === "Muted");
+          let muted = gg.roles.cache.find(r => r.name === "muted");
           if(!muted) {
             muted = await gg.roles.create({
               data: {
@@ -82,16 +106,18 @@ module.exports = client => {
               }
             }).then(role => {
               gg.channels.cache.forEach(channel => {
-                channel.overwritePermissions([{
-                  id: role.id,
-                  deny: ['SEND_MESSAGES', 'ADD_REACTIONS']
-                }]);
+                channel.updateOverwrite(role.id, {
+                  SEND_MESSAGES: false,
+                  ADD_REACTIONS: false
+                });
               });
             });
           }
           member.roles.remove(muted).then(() => db.delete(`mutetime_${gg.id}_${userid}`));
         }
       }
+      }
     })()
   });
+  
 };

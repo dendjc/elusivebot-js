@@ -3,6 +3,11 @@ const db = require("quick.db");
 const ms = require("parse-ms");
 
 exports.run = async (client, message, args) => {
+  
+    if (message.channel.id !== "720037477146165399")
+    return message.channel.send(
+      "Ovu komandu možeš koristiti samo u kanalu <#720037477146165399>"
+      )
 
   let user = message.author;
 
@@ -54,7 +59,7 @@ exports.run = async (client, message, args) => {
 .setColor("#FFFFFF")
 .setDescription(":negative_squared_cross_mark: Ne možeš koristiti znakove!");
 
- if (member2 != Number(member2)) {
+ if (isNaN(args[0])) {
   return message.channel.send(embed6)
  }
 
@@ -67,9 +72,10 @@ exports.run = async (client, message, args) => {
   db.add(`money_${message.guild.id}_${user.id}`, Number(args[0]))
   }
 }
-
-
-module.exports.help = {
-  name:"withdraw",
-  aliases: ["wd"]
-}
+exports.help = {
+    name: 'withdraw',
+    description: 'povlačenje novca sa banke',
+    usage: 'withdraw [iznos]',
+    category: 'economy',
+    listed: true
+};
