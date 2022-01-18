@@ -1,3 +1,5 @@
+**NAPOMENA:** Outdated verzija.
+
 Elusive Bot
 =========================  
 
